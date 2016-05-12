@@ -8,15 +8,15 @@ operator_pl_password = cp.parser.get('login', 'password')
 
 
 class Authorization(object):
-    """ Вход на главную страницу сайта тестовой площадки."""
+    """ Вход на главную страницу сайта php4dvd."""
 
     def login(self, login_username, login_password):
         """ Ввод логина и пароля на странице авторизации.
 
-        По умолчанию заданы логин и пароль оператора из файла конфигов.
+        По умолчанию заданы логин и пароль из файла конфигов.
         Метод возвращает страница авторизованного пользователя.
         """
-        page.AuthorizationPage.send_keys_username(self, login_username)  # вынести локаторы и элеиенты отдельно
+        page.AuthorizationPage.send_keys_username(self, login_username)
         page.AuthorizationPage.send_keys_password(self, login_password)
         page.AuthorizationPage.click_go_button(self)
         return self.driver

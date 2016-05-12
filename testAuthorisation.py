@@ -10,8 +10,8 @@ from locators import PageDashboardLocators
 
 
 base_url = cp.parser.get('url', 'base_url')
-operator_pl_username = cp.parser.get('login', 'username')
-operator_pl_password = cp.parser.get('login', 'password')
+username = cp.parser.get('login', 'username')
+password = cp.parser.get('login', 'password')
 
 
 class SuccessAuthorisation(unittest.TestCase):
@@ -22,7 +22,7 @@ class SuccessAuthorisation(unittest.TestCase):
         self.driver.get(base_url)
 
     def test_success_authorization(self):
-        main_page = mainFunctions.Authorization.login(self, operator_pl_username, operator_pl_password)
+        main_page = mainFunctions.Authorization.login(self, username, password)
         find_search = main_page.find_element(*PageDashboardLocators.find_search)
         assert find_search.is_displayed()
 
