@@ -21,63 +21,75 @@ class CreateAndDeleteFilms(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "http://localhost/"
+        self.base_url = "http://localhost/php4dvd/"
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_create_new_film(self):
-        """ Проверка корректного создания фильма.
-        (на странице присутствует уникальное имя фильма)"""
-        driver = self.driver
-        driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
-        driver = mainFunctions.Authorization.login(self, username, password)
-        driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
-        driver.find_element_by_name("name").clear()
-        driver.find_element_by_name("name").send_keys(film_name)
-        driver.find_element_by_name("year").clear()
-        driver.find_element_by_name("year").send_keys("2012")
-        driver.find_element_by_id("submit").click()
-        body_text = driver.find_element_by_css_selector(".maininfo_full > h2:nth-child(1)").text
-        self.assertTrue(film_name, body_text)
-
-    def test_field_form_created_new_film_is_required(self):
-        """ Проверка обязательности полей на форме создания фильма.
-        (сообщения об ошибках при незаполненных полях)"""
-        driver = self.driver
-        driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
-        driver = mainFunctions.Authorization.login(self, username, password)
-        driver.find_element_by_css_selector("h1").click()
-        driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
-        driver.find_element_by_name("imdbid").clear()
-        driver.find_element_by_name("imdbid").send_keys("002")
-        driver.find_element_by_id("submit").click()
-        self.assertEqual("This field is required", driver.find_element_by_css_selector("label.error").text)
-        self.assertEqual("This field is required", driver.find_element_by_xpath("//form[@id='updateform']"
-                                                                                "/table/tbody/tr[4]/td[2]/label").text)
-
-    def test_detele_film(self):
-        """ Проверка корректного удаления фильма.
-        (на странице нет id фильма)"""
-        driver = self.driver
-        driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
-        driver = mainFunctions.Authorization.login(self, username, password)
-        driver.find_element_by_css_selector("h1").click()
-        self.assertTrue(self.is_element_present(By.CSS_SELECTOR, ".movie_cover"))
-        id_film = driver.find_element_by_css_selector(".movie_box").get_attribute('id')
-        driver.find_element_by_css_selector(".movie_cover").click()
-        driver.find_element_by_css_selector("img[alt=\"Remove\"]").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to remove this[\s\S]$")
-        self.assertFalse(self.is_element_present(By.ID,  id_film))
+    # def test_create_new_film(self):
+    #     """ Проверка корректного создания фильма.
+    #     (на странице присутствует уникальное имя фильма)"""
+    #     driver = self.driver
+    #     driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
+    #     driver = mainFunctions.Authorization.login(self, username, password)
+    #     driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
+    #     driver.find_element_by_name("name").clear()
+    #     driver.find_element_by_name("name").send_keys(film_name)
+    #     driver.find_element_by_name("year").clear()
+    #     driver.find_element_by_name("year").send_keys("2012")
+    #     driver.find_element_by_id("submit").click()
+    #     body_text = driver.find_element_by_css_selector(".maininfo_full > h2:nth-child(1)").text
+    #     self.assertTrue(film_name, body_text)
+    #
+    # def test_field_form_created_new_film_is_required(self):
+    #     """ Проверка обязательности полей на форме создания фильма.
+    #     (сообщения об ошибках при незаполненных полях)"""
+    #     driver = self.driver
+    #     driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
+    #     driver = mainFunctions.Authorization.login(self, username, password)
+    #     driver.find_element_by_css_selector("h1").click()
+    #     driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
+    #     driver.find_element_by_name("imdbid").clear()
+    #     driver.find_element_by_name("imdbid").send_keys("002")
+    #     driver.find_element_by_id("submit").click()
+    #     self.assertEqual("This field is required", driver.find_element_by_css_selector("label.error").text)
+    #     self.assertEqual("This field is required", driver.find_element_by_xpath("//form[@id='updateform']"
+    #                                                                             "/table/tbody/tr[4]/td[2]/label").text)
+    #
+    # def test_detele_film(self):
+    #     """ Проверка корректного удаления фильма.
+    #     (на странице нет id фильма)"""
+    #     driver = self.driver
+    #     driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
+    #     driver = mainFunctions.Authorization.login(self, username, password)
+    #     driver.find_element_by_css_selector("h1").click()
+    #     self.assertTrue(self.is_element_present(By.CSS_SELECTOR, ".movie_cover"))
+    #     id_film = driver.find_element_by_css_selector(".movie_box").get_attribute('id')
+    #     driver.find_element_by_css_selector(".movie_cover").click()
+    #     driver.find_element_by_css_selector("img[alt=\"Remove\"]").click()
+    #     self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to remove this[\s\S]$")
+    #     self.assertFalse(self.is_element_present(By.ID,  id_film))
 
     def test_search_exist_film(self):
+        """ Поиск успешного поиска фильмов.
+        Выбираем фильм на главной странице, вводим его название в поле поиска.
+        Проверяем, что фильм присутствует на странице результатов """
         driver = self.driver
-        driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
+        driver.get(self.base_url)
+        driver = mainFunctions.Authorization.login(self, username, password)
+        self.film_name = driver.find_element_by_css_selector(".title").text
         driver.find_element_by_id("q").clear()
-        driver.find_element_by_id("q").send_keys(film_name)
-        self.assertEqual("No cover", driver.find_element_by_css_selector("div.nocover").text)
-        driver.find_element_by_css_selector("h1").click()
+        driver.find_element_by_id("q").send_keys(self.film_name)
+        driver.find_element_by_id("q").send_keys(Keys.ENTER)
+        self.assertEquals(driver.find_element_by_css_selector(".title").text, self.film_name)
+
+    def test_search_no_exist_film(self):
+        """ Проверка вывода сообщения о не найденом фильме."""
+        driver = self.driver
+        driver.get(self.base_url)
+        driver = mainFunctions.Authorization.login(self, username, password)
         driver.find_element_by_id("q").clear()
         driver.find_element_by_id("q").send_keys(u"такого фильма не существует")
+        driver.find_element_by_id("q").send_keys(Keys.ENTER)
         self.assertEqual("No movies where found.", driver.find_element_by_css_selector("div.content").text)
 
     def is_element_present(self, how, what):
@@ -102,9 +114,9 @@ class CreateAndDeleteFilms(unittest.TestCase):
         finally: self.accept_next_alert = True
 
 
-def tearDown(self):
-    self.driver.quit()
-    self.assertEqual([], self.verificationErrors)
+    def tearDown(self):
+        self.driver.quit()
+        self.assertEqual([], self.verificationErrors)
 
 if __name__ == "__main__":
     unittest.main()
