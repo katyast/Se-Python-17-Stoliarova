@@ -69,6 +69,17 @@ class CreateAndDeleteFilms(unittest.TestCase):
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to remove this[\s\S]$")
         self.assertFalse(self.is_element_present(By.ID,  id_film))
 
+    def test_search_exist_film(self):
+        driver = self.driver
+        driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
+        driver.find_element_by_id("q").clear()
+        driver.find_element_by_id("q").send_keys(film_name)
+        self.assertEqual("No cover", driver.find_element_by_css_selector("div.nocover").text)
+        driver.find_element_by_css_selector("h1").click()
+        driver.find_element_by_id("q").clear()
+        driver.find_element_by_id("q").send_keys(u"такого фильма не существует")
+        self.assertEqual("No movies where found.", driver.find_element_by_css_selector("div.content").text)
+
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
