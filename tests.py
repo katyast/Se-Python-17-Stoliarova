@@ -27,7 +27,7 @@ class CreateAndDeleteFilms(unittest.TestCase):
 
     def test_create_new_film(self):
         """ Проверка корректного создания фильма.
-        (на странице присутствует уникальное имя акции)"""
+        (на странице присутствует уникальное имя фильма)"""
         driver = self.driver
         driver.get(self.base_url + "/php4dvd/#!/sort/name%20asc/")
         driver = mainFunctions.Authorization.login(self, username, password)
