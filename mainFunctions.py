@@ -3,14 +3,14 @@ import page
 import config as cp
 
 base_url = cp.parser.get('url', 'base_url')
-operator_pl_username = cp.parser.get('login', 'username')
-operator_pl_password = cp.parser.get('login', 'password')
+username = cp.parser.get('login', 'username')
+password = cp.parser.get('login', 'password')
 
 
 class Authorization(object):
     """ Вход на главную страницу сайта php4dvd."""
 
-    def login(self, login_username, login_password):
+    def login(self, login_username=username, login_password=password):
         """ Ввод логина и пароля на странице авторизации.
 
         По умолчанию заданы логин и пароль из файла конфигов.
