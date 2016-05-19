@@ -7,7 +7,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 import config as cp
-import mainFunctions
 import datetime
 from selenium import webdriver
 from selenium.common.exceptions import *

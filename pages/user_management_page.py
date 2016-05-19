@@ -1,29 +1,12 @@
-from internal_page import InternalPage
+from pages.internal_page import InternalPage
+from pages.blocks.user_form import UserForm
 from selenium.webdriver.support.select import Select
 
 
 class UserManagementPage(InternalPage):
 
-    @property
-    def username_field(self):
-        return self.driver.find_element_by_name("username")
+    def __init__(self, driver, base_url):
+        super(UserManagementPage, self).__init__(driver, base_url)
+        self.user_form = UserForm(self.driver, self.base_url)
 
-    @property
-    def email_field(self):
-        return self.driver.find_element_by_name("email")
-
-    @property
-    def password_field(self):
-        return self.driver.find_element_by_name("password")
-
-    @property
-    def password1_field(self):
-        return self.driver.find_element_by_name("password2")
-
-    @property
-    def role_select(self):
-        return Select(self.driver.find_element_by_name("role"))
-
-    @property
-    def submit_button(self):
-        return self.driver.find_element_by_name("submit")
+    # more page elements here
