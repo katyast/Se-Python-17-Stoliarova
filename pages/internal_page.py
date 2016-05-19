@@ -19,3 +19,7 @@ class InternalPage(Page):
     @property
     def is_this_page(self):
         return self.is_element_visible((By.CSS_SELECTOR, "nav"))
+
+    @property
+    def create_film_link(self):
+        return self.driver.find_element_by_css_selector("nav a[href $= '?go=add']")

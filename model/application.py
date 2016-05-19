@@ -1,8 +1,11 @@
 from model.user import User
+from model.film import Film
 from pages.internal_page import InternalPage
 from pages.login_page import LoginPage
 from pages.user_management_page import UserManagementPage
 from pages.user_profile_page import UserProfilePage
+from pages.create_film_page import CreateFilmPage
+from pages.view_film import ViewFilm
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import *
@@ -16,6 +19,8 @@ class Application(object):
         self.internal_page = InternalPage(driver, base_url)
         self.user_profile_page = UserProfilePage(driver, base_url)
         self.user_management_page = UserManagementPage(driver, base_url)
+        self.create_film_page = CreateFilmPage(driver, base_url)
+        self.view_film = ViewFilm(driver, base_url)
 
     def logout(self):
         self.internal_page.logout_button.click()
@@ -70,3 +75,19 @@ class Application(object):
         ump.user_form.password1_field.send_keys(user.password)
         #ump.user_form.role_select.select_by_visible_text(user.role)
         ump.user_form.submit_button.click()
+
+    def add_film(self, film):
+        self.internal_page.create_film_link.click()
+        cfp = self.create_film_page
+        cfp.is_this_page
+        cfp.film_form.name_field.send_keys(film.name)
+        cfp.film_form.year_field.send_keys(film.year)
+        cfp.film_form.submit_button.click()
+
+    def get_film_created(self):
+        vp = self.view_film
+        #vp.is_this_page
+        return Film(name=vp.film_name.text)
+
+    def is_film_created(self, film):
+        return self.get_film_created().name == film.name
