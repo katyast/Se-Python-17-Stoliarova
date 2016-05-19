@@ -10,13 +10,13 @@ password = cp.parser.get('login', 'password')
 class Authorization(object):
     """ Вход на главную страницу сайта php4dvd."""
 
-    def login(self, login_username=username, login_password=password):
+    def login(login_username=username, login_password=password):
         """ Ввод логина и пароля на странице авторизации.
 
         По умолчанию заданы логин и пароль из файла конфигов.
         Метод возвращает страница авторизованного пользователя.
         """
-        page.AuthorizationPage.send_keys_username(self, login_username)
-        page.AuthorizationPage.send_keys_password(self, login_password)
-        page.AuthorizationPage.click_go_button(self)
-        return self.driver
+        page.AuthorizationPage.send_keys_username(login_username)
+        page.AuthorizationPage.send_keys_password(login_password)
+        page.AuthorizationPage.click_go_button()
+        return driver
