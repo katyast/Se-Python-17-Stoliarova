@@ -91,3 +91,8 @@ class Application(object):
         cfp.film_form.name_field.send_keys(film.name)
         cfp.film_form.year_field.send_keys(film.year)
         cfp.film_form.submit_button.click()
+
+    def is_film_deleted(self, film):
+        vp = self.view_film
+        vp.is_this_page
+        return Film(name=vp.film_name.text)
