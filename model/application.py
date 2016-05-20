@@ -76,6 +76,15 @@ class Application(object):
         #ump.user_form.role_select.select_by_visible_text(user.role)
         ump.user_form.submit_button.click()
 
+    def is_film_created(self, film):
+        return self.is_logged_in() \
+                and self.get_film_created().name == film.name+" ("+film.year+")"
+
+    def get_film_created(self):
+        vp = self.view_film
+        vp.is_this_page
+        return Film(name=vp.film_name.text)
+
     def add_film(self, film):
         self.internal_page.create_film_link.click()
         cfp = self.create_film_page
@@ -83,11 +92,3 @@ class Application(object):
         cfp.film_form.name_field.send_keys(film.name)
         cfp.film_form.year_field.send_keys(film.year)
         cfp.film_form.submit_button.click()
-
-    def get_film_created(self):
-        vp = self.view_film
-        #vp.is_this_page
-        return Film(name=vp.film_name.text)
-
-    def is_film_created(self, film):
-        return self.get_film_created().name == film.name

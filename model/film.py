@@ -11,5 +11,6 @@ class Film(object):
         now_time = datetime.datetime.now()
         now_time = str(now_time)
         film_name = "unic_title_" + now_time
+        film_year = str(randint(1990, 2016))
         return cls(name=film_name,
-                   year="19" + str(randint(0, 10)))
+                   year=film_year)

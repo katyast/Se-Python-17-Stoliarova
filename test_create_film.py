@@ -1,6 +1,5 @@
 from model.film import Film
 from model.user import User
-
 #from selenium_fixture import app
 
 
